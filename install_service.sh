@@ -3,25 +3,22 @@
 echo "🛠️ Installing Systemd Service..."
 echo "================================"
 
-# Get current directory
 CURRENT_DIR=$(pwd)
 USER=$(whoami)
 
-# Create systemd service file
 SERVICE_FILE="/etc/systemd/system/social-poster.service"
 
 sudo cat > $SERVICE_FILE << EOF
 [Unit]
 Description=Social Media Auto Poster
-Documentation=https://github.com/yourname/social-poster
 After=network.target
 
 [Service]
 Type=simple
 User=$USER
 WorkingDirectory=$CURRENT_DIR
-Environment="PATH=$CURRENT_DIR/venv/bin:/usr/local/bin:/usr/bin:/bin"
-ExecStart=$CURRENT_DIR/venv/bin/python $CURRENT_DIR/run.py --mode scheduler --post-time 09:00
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+ExecStart=/usr/bin/python3 $CURRENT_DIR/run.py --mode scheduler --post-time 09:00
 Restart=always
 RestartSec=30
 StandardOutput=append:$CURRENT_DIR/logs/service.log

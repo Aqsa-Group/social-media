@@ -1,6 +1,5 @@
+# run.py
 #!/usr/bin/env python3
-# run.py - Main entry point for the application
-
 import sys
 import os
 import argparse
