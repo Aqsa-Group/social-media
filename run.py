@@ -1,6 +1,12 @@
-# run.py
 #!/usr/bin/env python3
 import sys
+import io
+
+# Fix Unicode/emoji display issues in Windows
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
 import os
 import argparse
 import logging

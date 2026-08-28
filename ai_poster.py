@@ -86,26 +86,21 @@ def get_daily_prompt():
 # ============================================================
 
 def generate_ai_image_from_prompt(prompt, size="1024x1024"):
-    """Generate an image using OpenAI API"""
+    """Generate an image using free Pollinations.ai API"""
     try:
-        logger.info("Generating AI image...")
+        logger.info("Generating AI image using free service...")
         
-        response = openai.images.generate(
-            model="dall-e-2",
-            prompt=prompt,
-            size=size,
-            quality="standard",
-            n=1,
-        )
+        import urllib.parse
+        encoded_prompt = urllib.parse.quote(prompt)
+        image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true"
         
-        image_url = response.data[0].url
         logger.info("AI image generated successfully!")
         return image_url
         
     except Exception as e:
         logger.error(f"AI generation failed: {e}")
-        return None
-
+        # Return a placeholder image
+        return "https://via.placeholder.com/1024x1024/4A90D9/FFFFFF?text=AQSA+GROUP"
 # ============================================================
 # DOWNLOAD IMAGE
 # ============================================================
