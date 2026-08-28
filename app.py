@@ -136,6 +136,25 @@ def serve_ai(filename):
 def serve_posted(filename):
     return send_from_directory(POSTED_DIR, filename)
 
+@app.route('/repositories/social-media/images/<path:filename>')
+def serve_repository_image(filename):
+    """Serve an image through the public repository URL used by social APIs."""
+    image_path = (PROJECT_DIR / 'images' / filename).resolve()
+    image_directories = (UPLOAD_DIR, AI_GENERATED_DIR, POSTED_DIR)
+
+    if '/' not in filename and '\\' not in filename:
+        matching_paths = [directory / filename for directory in image_directories if (directory / filename).is_file()]
+        if matching_paths:
+            image_path = matching_paths[0].resolve()
+
+    if not any(image_path.is_relative_to(directory.resolve()) for directory in image_directories):
+        return jsonify({'error': 'Image not found'}), 404
+
+    if not image_path.is_file():
+        return jsonify({'error': 'Image not found'}), 404
+
+    return send_from_directory(image_path.parent, image_path.name)
+
 def get_all_prompts():
     prompts = []
     prompts_dir = PROJECT_DIR / 'prompts'
