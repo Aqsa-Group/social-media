@@ -5,9 +5,15 @@ import time
 import os
 import shutil
 import logging
+<<<<<<< HEAD
 import random
 from datetime import datetime
 from pathlib import Path
+=======
+from datetime import datetime
+from pathlib import Path
+import openai
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -15,7 +21,10 @@ load_dotenv()
 
 # Import configuration
 from config import *
+<<<<<<< HEAD
 from memory_manager import MemoryManager
+=======
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
 
 # ============================================================
 # LOGGING SETUP
@@ -32,6 +41,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+<<<<<<< HEAD
 # Initialize Memory
 memory = MemoryManager(MEMORY_FILE, LEARNING_FILE)
 
@@ -108,6 +118,153 @@ def post_to_facebook(image_path, caption):
     
     # Human-like delay before posting
     human_like_delay()
+=======
+# Set OpenAI API key
+openai.api_key = OPENAI_API_KEY
+
+# ============================================================
+# READ PROMPTS FROM FILE
+# ============================================================
+
+def read_prompts_from_file():
+    """Read prompts from prompts.txt file"""
+    prompts = []
+    
+    try:
+        with open(PROMPTS_FILE, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#'):
+                    prompts.append(line)
+        
+        logger.info(f"Loaded {len(prompts)} prompts from {PROMPTS_FILE}")
+        return prompts
+        
+    except FileNotFoundError:
+        logger.warning(f"{PROMPTS_FILE} not found. Using default prompts.")
+        return [
+            "A professional business image with modern technology, clean and elegant design",
+            "A successful business team collaborating in a modern office environment",
+            "A professional corporate workspace with natural lighting and modern furniture"
+        ]
+
+# ============================================================
+# GET DAILY PROMPT
+# ============================================================
+
+def get_daily_prompt():
+    """Get today's prompt from the prompts file"""
+    prompts = read_prompts_from_file()
+    
+    if not prompts:
+        logger.error("No prompts available!")
+        return None
+    
+    # Use day of year to rotate through prompts
+    day_of_year = datetime.now().timetuple().tm_yday
+    prompt_index = (day_of_year - 1) % len(prompts)
+    
+    selected_prompt = prompts[prompt_index]
+    logger.info(f"Today's prompt: {selected_prompt[:100]}...")
+    
+    return selected_prompt
+
+# ============================================================
+# GENERATE AI IMAGE
+# ============================================================
+
+def generate_ai_image_from_prompt(prompt, size="1024x1024"):
+    """Generate an image using free Pollinations.ai API"""
+    try:
+        logger.info("Generating AI image using free service...")
+        
+        import urllib.parse
+        encoded_prompt = urllib.parse.quote(prompt)
+        image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=1024&height=1024&nologo=true"
+        
+        logger.info("AI image generated successfully!")
+        return image_url
+        
+    except Exception as e:
+        logger.error(f"AI generation failed: {e}")
+        # Return a placeholder image
+        return "https://via.placeholder.com/1024x1024/4A90D9/FFFFFF?text=AQSA+GROUP"
+# ============================================================
+# DOWNLOAD IMAGE
+# ============================================================
+
+def download_image(url, save_path):
+    """Download an image from URL and save locally"""
+    try:
+        response = requests.get(url, timeout=30)
+        if response.status_code == 200:
+            with open(save_path, 'wb') as f:
+                f.write(response.content)
+            return True
+    except Exception as e:
+        logger.error(f"Download failed: {e}")
+    return False
+
+# ============================================================
+# GET IMAGE TO POST
+# ============================================================
+
+def get_image_to_post():
+    """Priority: User uploaded > AI generated"""
+    
+    # Create directories
+    os.makedirs(WATCH_DIRECTORY, exist_ok=True)
+    os.makedirs(POSTED_DIRECTORY, exist_ok=True)
+    os.makedirs(AI_IMAGE_DIRECTORY, exist_ok=True)
+    
+    # Check for new images
+    image_files = []
+    for ext in ['*.jpg', '*.jpeg', '*.png', '*.gif', '*.webp']:
+        image_files.extend(Path(WATCH_DIRECTORY).glob(ext))
+    
+    posted_files = set()
+    for ext in ['*.jpg', '*.jpeg', '*.png', '*.gif', '*.webp']:
+        posted_files.update(Path(POSTED_DIRECTORY).glob(ext))
+    
+    new_images = [f for f in image_files if f not in posted_files]
+    
+    if new_images:
+        image_path = new_images[0]
+        logger.info(f"Using user uploaded photo: {image_path}")
+        
+        posted_path = Path(POSTED_DIRECTORY) / image_path.name
+        shutil.move(str(image_path), str(posted_path))
+        
+        return str(posted_path), "User uploaded photo"
+    
+    # No new images - generate AI
+    logger.info("No new images found. Generating AI image...")
+    
+    prompt = get_daily_prompt()
+    if not prompt:
+        return None, None
+    
+    image_url = generate_ai_image_from_prompt(prompt)
+    if not image_url:
+        return None, None
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    image_path = Path(AI_IMAGE_DIRECTORY) / f"ai_image_{timestamp}.jpg"
+    
+    if download_image(image_url, image_path):
+        logger.info(f"AI image saved: {image_path}")
+        return str(image_path), f"AI Generated: {prompt[:50]}..."
+    else:
+        return None, None
+
+# ============================================================
+# POST TO SOCIAL MEDIA
+# ============================================================
+
+def post_to_facebook(image_path, caption):
+    """Post image to Facebook Feed"""
+    logger.info("Posting to Facebook Feed...")
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
 
     url = f"https://graph.facebook.com/v23.0/{FACEBOOK_PAGE_ID}/photos"
     
@@ -128,6 +285,7 @@ def post_to_facebook(image_path, caption):
             logger.error(f"❌ Facebook failed: {result.get('error', {}).get('message')}")
             return False
 
+<<<<<<< HEAD
 # ============================================================
 # POST TO INSTAGRAM - FIXED TO USE PROMPTS
 # ============================================================
@@ -152,6 +310,14 @@ def post_to_instagram(image_path, caption):
     # image_url = f"https://temp.aqsagroup.af/{filename}"
     
     logger.info(f"📸 Image URL: {image_url}")
+=======
+def post_to_instagram(image_path, caption):
+    """Post image to Instagram Feed"""
+    logger.info("Posting to Instagram Feed...")
+
+    # For production, you need to host the image
+    image_url = "https://temp.aqsagroup.af/office.jpg"
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
 
     create_url = f"https://graph.instagram.com/v24.0/{IG_USER_ID}/media"
 
@@ -171,10 +337,14 @@ def post_to_instagram(image_path, caption):
     creation_id = result["id"]
     logger.info(f"✅ Media container created: {creation_id}")
 
+<<<<<<< HEAD
     # Longer human-like delay for processing
     processing_delay = random.uniform(5, 12)
     logger.info(f"⏳ Waiting {processing_delay:.1f} seconds for Instagram processing...")
     time.sleep(processing_delay)
+=======
+    time.sleep(5)
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
 
     publish_url = f"https://graph.instagram.com/v24.0/{IG_USER_ID}/media_publish"
     publish_payload = {
@@ -192,6 +362,7 @@ def post_to_instagram(image_path, caption):
         logger.error(f"❌ Instagram publish failed: {publish_result.get('error', {}).get('message')}")
         return False
 
+<<<<<<< HEAD
 # ============================================================
 # POST TO INSTAGRAM STORY - FIXED TO USE PROMPTS
 # ============================================================
@@ -216,6 +387,13 @@ def post_instagram_story(image_path, caption):
     # image_url = f"https://temp.aqsagroup.af/{filename}"
     
     logger.info(f"📸 Story Image URL: {image_url}")
+=======
+def post_instagram_story(image_path, caption):
+    """Post image to Instagram Story"""
+    logger.info("Posting to Instagram Story...")
+    
+    image_url = "https://temp.aqsagroup.af/office.jpg"
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
     
     create_url = f"https://graph.instagram.com/v24.0/{IG_USER_ID}/media"
     payload = {
@@ -234,10 +412,14 @@ def post_instagram_story(image_path, caption):
     creation_id = result["id"]
     logger.info(f"✅ Story container created: {creation_id}")
     
+<<<<<<< HEAD
     # Human-like delay
     story_delay = random.uniform(4, 8)
     logger.info(f"⏳ Waiting {story_delay:.1f} seconds...")
     time.sleep(story_delay)
+=======
+    time.sleep(5)
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
     
     publish_url = f"https://graph.instagram.com/v24.0/{IG_USER_ID}/media_publish"
     publish_payload = {
@@ -256,6 +438,7 @@ def post_instagram_story(image_path, caption):
         return False
 
 # ============================================================
+<<<<<<< HEAD
 # READ AND CONSUME PROMPT
 # ============================================================
 
@@ -450,17 +633,24 @@ def get_image_to_post():
         return None, None
 
 # ============================================================
+=======
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
 # DAILY PUBLISH
 # ============================================================
 
 def publish_daily():
+<<<<<<< HEAD
     """Main function: Daily post with smart captions (NO DATE)"""
+=======
+    """Main function: Daily post"""
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
     logger.info(f"🚀 Starting daily post - {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     
     # Get image
     image_path, image_source = get_image_to_post()
     
     if not image_path:
+<<<<<<< HEAD
         logger.warning("⚠️ No image available!")
         logger.warning("⚠️ Skipping today's post.")
         return False
@@ -484,6 +674,21 @@ def publish_daily():
     caption = generate_smart_caption(prompt, image_source)
     
     logger.info(f"📝 Generated caption: {caption[:100]}...")
+=======
+        logger.error("No image available to post")
+        return False
+    
+    logger.info(f"Image source: {image_source}")
+    
+    # Generate caption
+    date_str = datetime.now().strftime('%B %d, %Y')
+    if "User uploaded" in image_source:
+        content = "📸 Photo uploaded by our team!"
+    else:
+        content = f"🤖 AI Generated Image\n\n{image_source}"
+    
+    caption = CAPTION_TEMPLATE.format(content=content, date=date_str)
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
     
     # Post to platforms
     results = []
@@ -501,12 +706,16 @@ def publish_daily():
         if success:
             successful += 1
     
+<<<<<<< HEAD
     logger.info(f"📊 Total: {successful}/{len(results)} posts published successfully")
     
     # Show memory stats
     stats = memory.get_statistics()
     logger.info(f"🧠 Memory: {stats['total_posts']} total posts, {stats['ai_generated']} AI generated")
     logger.info(f"🧠 Evolution Stage: {stats['evolution_stage']}")
+=======
+    logger.info(f"Total: {successful}/{len(results)} posts published successfully")
+>>>>>>> 991c44e90d4fae9759c637b63fb5909da2503cc6
     
     return successful > 0
 
