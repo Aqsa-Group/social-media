@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Social Media Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav { display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
+        .nav a { text-decoration: none; color: #667eea; font-weight: bold; padding: 8px 16px; border-radius: 5px; }
+        .nav a:hover, .nav a.active { background: #667eea; color: white; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
+        .stat { text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px; }
+        .stat h3 { color: #666; font-size: 14px; }
+        .stat p { font-size: 28px; font-weight: bold; color: #1a1a2e; }
+        .btn { background: #667eea; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        .btn:hover { background: #5a67d8; }
+        .btn-danger { background: #fc8181; }
+        .btn-danger:hover { background: #f56565; }
+        .post-item { padding: 10px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+        .business { background: #e8f0fe; padding: 15px; border-radius: 8px; color: #667eea; font-size: 18px; }
+        .status { padding: 10px; margin-top: 10px; border-radius: 5px; display: none; }
+        .success { background: #d4edda; color: #155724; display: block; }
+        .error { background: #f8d7da; color: #721c24; display: block; }
+        h1 { color: #1a1a2e; }
+        h2 { color: #1a1a2e; margin-bottom: 15px; }
+        .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .empty { color: #999; text-align: center; padding: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🚀 Social Media Dashboard</h1>
+            <div class="nav">
+                <a href="/" class="active">📊 Dashboard</a>
+                <a href="/prompts">📝 Prompts</a>
+                <a href="/upload">📸 Upload</a>
+                <a href="/analytics">📈 Analytics</a>
+                <a href="/settings">⚙️ Settings</a>
+            </div>
+            <div class="business">🧠 {{ business }}</div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <h3>📊 Total Posts</h3>
+                <p>{{ stats.total_posts }}</p>
+            </div>
+            <div class="stat">
+                <h3>🤖 AI Generated</h3>
+                <p>{{ stats.ai_generated }}</p>
+            </div>
+            <div class="stat">
+                <h3>📸 User Uploads</h3>
+                <p>{{ stats.user_uploads }}</p>
+            </div>
+            <div class="stat">
+                <h3>📈 Stage</h3>
+                <p>{{ stats.evolution_stage|capitalize }}</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>⚡ Quick Actions</h2>
+            <div class="actions">
+                <button onclick="postNow()" class="btn">🚀 Post Now</button>
+                <button onclick="location.href='/upload'" class="btn">📸 Upload Image</button>
+                <button onclick="location.href='/prompts'" class="btn">📝 Add Prompt</button>
+            </div>
+            <div id="message" class="status"></div>
+        </div>
+        
+        <div class="card">
+            <h2>📊 Recent Posts</h2>
+            {% if recent_posts %}
+                {% for post in recent_posts|reverse %}
+                <div class="post-item">
+                    <span>{{ post.timestamp[:10] }}</span>
+                    <span>{{ post.image_source }}</span>
+                    <span>{{ post.platforms|join(', ') if post.platforms else 'None' }}</span>
+                    <span>{{ '✅' if post.success else '❌' }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty">No posts yet. Upload images or add prompts to get started!</div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <script>
+        function postNow() {
+            if (!confirm('Post to all platforms?')) return;
+            const msg = document.getElementById('message');
+            msg.className = 'status';
+            msg.textContent = '⏳ Posting...';
+            msg.style.display = 'block';
+            
+            fetch('/api/post_now', {method: 'POST'})
+            .then(r => r.json())
+            .then(data => {
+                msg.className = 'status ' + (data.success ? 'success' : 'error');
+                msg.textContent = data.success ? '✅ Posted successfully!' : '❌ Posting failed!';
+                if (data.success) setTimeout(() => location.reload(), 2000);
+            })
+            .catch(err => {
+                msg.className = 'status error';
+                msg.textContent = '❌ Error: ' + err.message;
+            });
+        }
+    </script>
+</body>
+</html>

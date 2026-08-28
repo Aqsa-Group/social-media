@@ -1,47 +1,82 @@
 # config.py
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
-# Load environment variables
 load_dotenv()
+PROJECT_DIR = Path(__file__).resolve().parent
+UPLOAD_DIR = PROJECT_DIR / "images" / "uploads"
+AI_GENERATED_DIR = PROJECT_DIR / "images" / "ai_generated"
+POSTED_DIR = PROJECT_DIR / "images" / "posted"
+LOG_DIR = PROJECT_DIR / "logs"
 
-# ============================================================
-# SOCIAL MEDIA CREDENTIALS
-# ============================================================
+# ============ SOCIAL MEDIA CREDENTIALS ============
 
+# Facebook
 FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID")
 FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN")
 
+# Instagram
 IG_USER_ID = os.getenv("IG_USER_ID")
 IG_ACCESS_TOKEN = os.getenv("IG_ACCESS_TOKEN")
 
-# ============================================================
-# AI CONFIGURATION
-# ============================================================
+# Telegram (optional)
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# ============ PUBLIC IMAGE URL ============
+IMAGE_URL = os.getenv("IMAGE_URL") or None
+PUBLIC_IMAGE_BASE_URL = os.getenv(
+    "PUBLIC_IMAGE_BASE_URL",
+    "https://aqsagroup.af/repositories/social-media",
+).rstrip("/")
+WATCH_DIRECTORY = os.getenv("WATCH_DIRECTORY", str(UPLOAD_DIR))
+WEB_HOST = os.getenv("WEB_HOST", "127.0.0.1")
+WEB_PORT = int(os.getenv("WEB_PORT", "5000"))
 
-# ============================================================
-# DIRECTORIES
-# ============================================================
+# ============ HASHTAGS ============
+HASHTAGS = "#aqsagroup #aqsasystem #aqsapay #sarafi"
 
-WATCH_DIRECTORY = "images/"
-POSTED_DIRECTORY = "posted/"
-AI_IMAGE_DIRECTORY = "ai_generated/"
-PROMPTS_FILE = "prompts.txt"
-HISTORY_FILE = "post_history.json"
-LOG_FILE = "logs/app.log"
+# ============ ADVERTISING TEMPLATES ============
+AD_TEMPLATES = {
+    "office": [
+        "🏢 Elevate your workspace with AQSA GROUP!",
+        "💼 Professional environment, professional results.",
+        "🌟 Your success starts with the right environment."
+    ],
+    "business": [
+        "💼 Trust AQSA GROUP for all your business needs.",
+        "🚀 Growing businesses choose AQSA GROUP.",
+        "📈 Your partner in business success."
+    ],
+    "technology": [
+        "💻 Innovation at its finest with AQSA GROUP.",
+        "🔬 Cutting-edge solutions for modern challenges.",
+        "⚡ Technology that drives your business forward."
+    ],
+    "team": [
+        "🤝 Together we achieve more with AQSA GROUP.",
+        "👥 Building strong teams for better results.",
+        "💪 United we stand, with AQSA GROUP."
+    ],
+    "default": [
+        "✨ AQSA GROUP - Excellence in everything we do.",
+        "🌟 Quality you can trust, service you can count on.",
+        "💎 AQSA GROUP - Building a better future."
+    ]
+}
 
-# ============================================================
-# POST SETTINGS
-# ============================================================
-
-POST_TIME = "09:00"
-CAPTION_TEMPLATE = """🚀 Daily Update
+CAPTION_TEMPLATE = """{ad_text}
 
 {content}
 
-📅 {date}
+{HASHTAGS}"""
 
-Powered by AQSA GROUP
-"""
+# ============ PLATFORM CONFIGURATION ============
+# ⚠️ THIS MUST BE DEFINED
+PLATFORMS = {
+    "facebook": True,
+    "instagram": True,
+    "instagram_story": True,   # ⚠️ MUST BE True
+    "telegram": False,
+}

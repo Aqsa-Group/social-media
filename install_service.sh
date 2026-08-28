@@ -1,7 +1,8 @@
 #!/bin/bash
 
-echo "🛠️ Installing Systemd Service..."
-echo "================================"
+echo "=========================================="
+echo "Installing Systemd Service"
+echo "=========================================="
 
 CURRENT_DIR=$(pwd)
 USER=$(whoami)
@@ -17,8 +18,8 @@ After=network.target
 Type=simple
 User=$USER
 WorkingDirectory=$CURRENT_DIR
-Environment="PATH=/usr/local/bin:/usr/bin:/bin"
-ExecStart=/usr/bin/python3 $CURRENT_DIR/run.py --mode scheduler --post-time 09:00
+Environment="PATH=$CURRENT_DIR/venv/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=$CURRENT_DIR/venv/bin/python $CURRENT_DIR/run.py --mode all
 Restart=always
 RestartSec=30
 StandardOutput=append:$CURRENT_DIR/logs/service.log
@@ -29,7 +30,7 @@ SyslogIdentifier=social-poster
 WantedBy=multi-user.target
 EOF
 
-echo "✅ Service file created: $SERVICE_FILE"
+echo "Service file created: $SERVICE_FILE"
 
 # Reload systemd
 sudo systemctl daemon-reload
@@ -38,11 +39,11 @@ sudo systemctl daemon-reload
 sudo systemctl enable social-poster
 
 echo ""
-echo "📋 Service Commands:"
+echo "Service Commands:"
 echo "  Start:   sudo systemctl start social-poster"
 echo "  Stop:    sudo systemctl stop social-poster"
 echo "  Restart: sudo systemctl restart social-poster"
 echo "  Status:  sudo systemctl status social-poster"
 echo "  Logs:    sudo journalctl -u social-poster -f"
 echo ""
-echo "🚀 To start now: sudo systemctl start social-poster"
+echo "To start now: sudo systemctl start social-poster"

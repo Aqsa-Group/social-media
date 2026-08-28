@@ -1,0 +1,115 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <nav>
+            <h1>🚀 Social Media Manager</h1>
+            <div class="nav-links">
+                <a href="/" class="active">📊 Dashboard</a>
+                <a href="/prompts">📝 Prompts</a>
+                <a href="/upload">📸 Upload</a>
+                <a href="/analytics">📈 Analytics</a>
+                <a href="/settings">⚙️ Settings</a>
+            </div>
+        </nav>
+        
+        <div class="main-content">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>📊 Total Posts</h3>
+                    <p>{{ stats.total_posts }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>🤖 AI Generated</h3>
+                    <p>{{ stats.ai_generated }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>📸 User Uploads</h3>
+                    <p>{{ stats.user_uploads }}</p>
+                </div>
+                <div class="stat-card">
+                    <h3>📈 Success Rate</h3>
+                    <p>
+                        {% if stats.total_posts > 0 %}
+                            {{ ((stats.total_posts - stats.failed_posts|default(0)) / stats.total_posts * 100)|round(0) }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Business Understanding -->
+            <div class="section">
+                <h2>🧠 Business Understanding</h2>
+                <p class="business-type">{{ business }}</p>
+                <p class="stage">Stage: {{ stats.evolution_stage|capitalize }}</p>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="section">
+                <h2>⚡ Quick Actions</h2>
+                <div class="actions">
+                    <button onclick="postNow()" class="btn-primary">🚀 Post Now</button>
+                    <button onclick="location.href='/upload'" class="btn-secondary">📸 Upload Image</button>
+                    <button onclick="location.href='/prompts'" class="btn-secondary">📝 Add Prompt</button>
+                </div>
+                <div id="postMessage" style="margin-top:10px;display:none;"></div>
+            </div>
+            
+            <!-- Recent Posts -->
+            <div class="section">
+                <h2>📊 Recent Posts</h2>
+                <div class="post-list">
+                    {% for post in recent_posts|reverse %}
+                    <div class="post-item">
+                        <span class="time">{{ post.timestamp[:10] }}</span>
+                        <span class="source">{{ post.image_source }}</span>
+                        <span class="platforms">{{ post.platforms|join(', ') if post.platforms else 'None' }}</span>
+                        <span class="status">{{ '✅' if post.success else '❌' }}</span>
+                    </div>
+                    {% else %}
+                    <p style="color:#666;">No posts yet. Upload an image or add prompts to get started!</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function postNow() {
+            if (confirm('Post to all platforms now?')) {
+                const msg = document.getElementById('postMessage');
+                msg.style.display = 'block';
+                msg.textContent = '⏳ Posting...';
+                msg.style.color = '#666';
+                
+                fetch('/api/post_now', {method: 'POST'})
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        msg.textContent = '✅ Posted successfully!';
+                        msg.style.color = '#48bb78';
+                    } else {
+                        msg.textContent = '❌ ' + data.message;
+                        msg.style.color = '#fc8181';
+                    }
+                    setTimeout(() => location.reload(), 2000);
+                })
+                .catch(err => {
+                    msg.textContent = '❌ Error: ' + err.message;
+                    msg.style.color = '#fc8181';
+                });
+            }
+        }
+    </script>
+</body>
+</html>

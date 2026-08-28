@@ -1,0 +1,18 @@
+[Unit]
+Description=Social Media Automation Platform
+After=network.target
+
+[Service]
+Type=simple
+User=aqsagroup
+WorkingDirectory=/home/aqsagroup/repositories/social-media
+Environment="PATH=/home/aqsagroup/repositories/social-media/venv/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=/home/aqsagroup/repositories/social-media/venv/bin/python /home/aqsagroup/repositories/social-media/run.py --mode all
+Restart=always
+RestartSec=30
+StandardOutput=append:/home/aqsagroup/repositories/social-media/logs/service.log
+StandardError=append:/home/aqsagroup/repositories/social-media/logs/service-error.log
+SyslogIdentifier=social-poster
+
+[Install]
+WantedBy=multi-user.target

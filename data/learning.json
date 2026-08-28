@@ -1,0 +1,52 @@
+{
+  "successful_prompts": [
+    {
+      "prompt": "AI generated image",
+      "topic": null,
+      "image": "images\\ai_generated\\ai_image_20260828_165805.jpg",
+      "timestamp": "2026-08-28T18:02:34.039313"
+    },
+    {
+      "prompt": "AI generated image",
+      "topic": null,
+      "image": "images\\ai_generated\\ai_image_20260828_165805.jpg",
+      "timestamp": "2026-08-28T18:06:32.833596"
+    },
+    {
+      "prompt": "AI generated image",
+      "topic": null,
+      "image": "images\\ai_generated\\ai_image_20260828_165805.jpg",
+      "timestamp": "2026-08-28T18:09:20.251647"
+    },
+    {
+      "prompt": "AI generated image",
+      "topic": null,
+      "image": "images\\posted\\ai_image_20260828_165805.jpg",
+      "timestamp": "2026-08-28T18:40:27.845027"
+    },
+    {
+      "prompt": "Professional business team meeting with laptops and coffee, modern conference room, natural lighting",
+      "topic": "business",
+      "image": "images\\ai_generated\\ai_image_20260828_184205.jpg",
+      "timestamp": "2026-08-28T18:43:02.587650"
+    }
+  ],
+  "failed_prompts": [
+    {
+      "prompt": "Futuristic technology concept with holographic displays and data visualization, modern sleek office",
+      "topic": "office",
+      "timestamp": "2026-08-28T18:57:59.150861"
+    }
+  ],
+  "learned_topics": [
+    "business",
+    "office"
+  ],
+  "business_type": "General Business",
+  "brand_voice": null,
+  "image_style_preferences": [],
+  "topic_patterns": {
+    "business": 1,
+    "office": 1
+  }
+}

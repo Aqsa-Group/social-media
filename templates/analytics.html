@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Analytics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .nav { display: flex; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
+        .nav a { text-decoration: none; color: #667eea; font-weight: bold; padding: 8px 16px; border-radius: 5px; }
+        .nav a:hover, .nav a.active { background: #667eea; color: white; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+        .stat { text-align: center; padding: 20px; background: #f8f9fa; border-radius: 8px; }
+        .stat h3 { color: #666; font-size: 14px; margin-bottom: 5px; }
+        .stat p { font-size: 32px; font-weight: bold; color: #1a1a2e; }
+        .stat .small { font-size: 16px; }
+        h1, h2 { color: #1a1a2e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>📊 Analytics</h1>
+            <div class="nav">
+                <a href="/">📊 Dashboard</a>
+                <a href="/prompts">📝 Prompts</a>
+                <a href="/upload">📸 Upload</a>
+                <a href="/analytics" class="active">📈 Analytics</a>
+                <a href="/settings">⚙️ Settings</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>📈 Overview</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <h3>📊 Total Posts</h3>
+                    <p>{{ stats.total_posts }}</p>
+                </div>
+                <div class="stat">
+                    <h3>🤖 AI Generated</h3>
+                    <p>{{ stats.ai_generated }}</p>
+                </div>
+                <div class="stat">
+                    <h3>📸 User Uploads</h3>
+                    <p>{{ stats.user_uploads }}</p>
+                </div>
+                <div class="stat">
+                    <h3>🧠 Topics Learned</h3>
+                    <p>{{ stats.learned_topics }}</p>
+                </div>
+                <div class="stat">
+                    <h3>📈 Evolution</h3>
+                    <p class="small">{{ stats.evolution_stage|capitalize }}</p>
+                </div>
+                <div class="stat">
+                    <h3>💼 Business Type</h3>
+                    <p class="small">{{ stats.business_type }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

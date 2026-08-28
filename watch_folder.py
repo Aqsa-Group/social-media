@@ -12,19 +12,19 @@ class ImageHandler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory:
             if event.src_path.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.webp')):
-                logger.info(f"📸 New image detected: {event.src_path}")
+                logger.info(f"[IMAGE] New image detected: {event.src_path}")
                 time.sleep(2)
                 if os.path.exists(event.src_path):
-                    from ai_poster import publish_daily
+                    from core.ai_poster import publish_daily
                     publish_daily()
 
 def watch_and_post():
     """Watch directory and post when new images are added"""
     os.makedirs(WATCH_DIRECTORY, exist_ok=True)
     
-    logger.info(f"👁️ Watching directory: {WATCH_DIRECTORY}")
-    logger.info("📸 Add images to auto-post")
-    logger.info("🔄 Press Ctrl+C to stop")
+    logger.info(f"[WATCH] Watching directory: {WATCH_DIRECTORY}")
+    logger.info("[WATCH] Add images to auto-post")
+    logger.info("[WATCH] Press Ctrl+C to stop")
     
     event_handler = ImageHandler()
     observer = Observer()
@@ -36,6 +36,6 @@ def watch_and_post():
             time.sleep(1)
     except KeyboardInterrupt:
         observer.stop()
-        logger.info("👋 Watcher stopped")
+        logger.info("[STOP] Watcher stopped")
     
     observer.join()

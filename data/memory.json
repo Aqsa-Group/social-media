@@ -1,0 +1,109 @@
+{
+  "total_posts": 6,
+  "total_ai_generated": 3,
+  "total_user_uploads": 3,
+  "prompts_used": [
+    {
+      "prompt": "AI generated image",
+      "timestamp": "2026-08-28T18:02:34.038404",
+      "success": true
+    },
+    {
+      "prompt": "AI generated image",
+      "timestamp": "2026-08-28T18:06:32.832701",
+      "success": true
+    },
+    {
+      "prompt": "AI generated image",
+      "timestamp": "2026-08-28T18:09:20.250642",
+      "success": true
+    },
+    {
+      "prompt": "AI generated image",
+      "timestamp": "2026-08-28T18:40:27.843683",
+      "success": true
+    },
+    {
+      "prompt": "Professional business team meeting with laptops and coffee, modern conference room, natural lighting",
+      "timestamp": "2026-08-28T18:43:02.586302",
+      "success": true
+    },
+    {
+      "prompt": "Futuristic technology concept with holographic displays and data visualization, modern sleek office",
+      "timestamp": "2026-08-28T18:57:59.148859",
+      "success": false
+    }
+  ],
+  "post_history": [
+    {
+      "image_source": "ai_generated",
+      "prompt": "AI generated image",
+      "success": true,
+      "platforms": [
+        "Instagram"
+      ],
+      "caption": "\ud83d\udc8e AQSA GROUP - Building a better future.\n\n\ud83e\udd16 AI generated image\n\n#aqsagroup #aqsasystem #aqsapay #sarafi",
+      "image_path": "images\\ai_generated\\ai_image_20260828_165805.jpg",
+      "timestamp": "2026-08-28T18:02:34.038414"
+    },
+    {
+      "image_source": "ai_generated",
+      "prompt": "AI generated image",
+      "success": true,
+      "platforms": [
+        "Instagram"
+      ],
+      "caption": "\u2728 AQSA GROUP - Excellence in everything we do.\n\n\ud83e\udd16 AI generated image\n\n#aqsagroup #aqsasystem #aqsapay #sarafi",
+      "image_path": "images\\ai_generated\\ai_image_20260828_165805.jpg",
+      "timestamp": "2026-08-28T18:06:32.832711"
+    },
+    {
+      "image_source": "ai_generated",
+      "prompt": "AI generated image",
+      "success": true,
+      "platforms": [
+        "Instagram"
+      ],
+      "caption": "\ud83c\udf1f Quality you can trust, service you can count on.\n\n\ud83e\udd16 AI generated image\n\n#aqsagroup #aqsasystem #aqsapay #sarafi",
+      "image_path": "images\\ai_generated\\ai_image_20260828_165805.jpg",
+      "timestamp": "2026-08-28T18:09:20.250652"
+    },
+    {
+      "image_source": "ai_generated",
+      "prompt": "AI generated image",
+      "success": true,
+      "platforms": [
+        "facebook",
+        "instagram",
+        "instagram_story"
+      ],
+      "caption": "\u2728 AQSA GROUP - Excellence in everything we do.\n\n\ud83e\udd16 AI generated image\n\n#aqsagroup #aqsasystem #aqsapay #sarafi",
+      "image_path": "images\\posted\\ai_image_20260828_165805.jpg",
+      "timestamp": "2026-08-28T18:40:27.843701"
+    },
+    {
+      "image_source": "generate_ai",
+      "prompt": "Professional business team meeting with laptops and coffee, modern conference room, natural lighting",
+      "success": true,
+      "platforms": [
+        "facebook",
+        "instagram",
+        "instagram_story"
+      ],
+      "caption": "\ud83c\udfe2 Elevate your workspace with AQSA GROUP!\n\n\ud83e\udd16 Professional business team meeting with laptops and coffee, modern conference room, natural lighting\n\n#aqsagroup #aqsasystem #aqsapay #sarafi",
+      "image_path": "images\\ai_generated\\ai_image_20260828_184205.jpg",
+      "timestamp": "2026-08-28T18:43:02.586313"
+    },
+    {
+      "image_source": "generate_ai",
+      "prompt": "Futuristic technology concept with holographic displays and data visualization, modern sleek office",
+      "success": false,
+      "platforms": [],
+      "caption": "\ud83c\udf1f Your success starts with the right environment.\n\n\ud83e\udd16 Futuristic technology concept with holographic displays and data visualization, modern sleek office\n\n#aqsagroup #aqsasystem #aqsapay #sarafi",
+      "image_path": "C:\\Users\\AQSA Office\\Desktop\\social-media\\images\\ai_generated\\ai_image_20260828_185741.jpg",
+      "timestamp": "2026-08-28T18:57:59.148873"
+    }
+  ],
+  "business_topics": [],
+  "content_patterns": {}
+}

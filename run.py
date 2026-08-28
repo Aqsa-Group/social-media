@@ -1,52 +1,52 @@
-#!/usr/bin/env python3
+# run.py
 import sys
-import io
-
-# Fix Unicode/emoji display issues in Windows
-if sys.platform == 'win32':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
-
-import os
 import argparse
 import logging
+import threading
 from datetime import datetime
+from config import WEB_HOST, WEB_PORT
 
-# Setup logging
-os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/app.log'),
-        logging.StreamHandler()
-    ]
+    format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
+def run_web():
+    from app import app
+    logger.info(f"🌐 Starting web interface on http://{WEB_HOST}:{WEB_PORT}")
+    app.run(host=WEB_HOST, port=WEB_PORT, debug=False)
+
+def run_scheduler():
+    from core.scheduler import run_scheduler
+    logger.info("🔄 Starting scheduler...")
+    run_scheduler()
+
+def run_once():
+    from core.ai_poster import publish_daily
+    logger.info("🚀 Posting once...")
+    publish_daily()
+
+def run_all():
+    web_thread = threading.Thread(target=run_web, name="web-server", daemon=True)
+    web_thread.start()
+    run_scheduler()
+
 def main():
     parser = argparse.ArgumentParser(description='Social Media Automation')
-    parser.add_argument('--mode', choices=['scheduler', 'watch', 'once'], 
-                       default='scheduler', help='Run mode')
-    parser.add_argument('--post-time', default='09:00', 
-                       help='Post time (HH:MM format)')
+    parser.add_argument('--mode', choices=['web', 'scheduler', 'once', 'all'], 
+                       default='web', help='Run mode')
     
     args = parser.parse_args()
     
-    logger.info(f"🚀 Starting Social Media Automation - Mode: {args.mode}")
-    logger.info(f"📅 Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    
-    if args.mode == 'once':
-        from ai_poster import publish_daily
-        publish_daily()
-    
-    elif args.mode == 'watch':
-        from watch_folder import watch_and_post
-        watch_and_post()
-    
-    else:  # scheduler (default)
-        from scheduler import run_scheduler
-        run_scheduler(args.post_time)
+    if args.mode == 'web':
+        run_web()
+    elif args.mode == 'scheduler':
+        run_scheduler()
+    elif args.mode == 'once':
+        run_once()
+    elif args.mode == 'all':
+        run_all()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
