@@ -36,17 +36,29 @@
       "prompt": "Futuristic technology concept with holographic displays and data visualization, modern sleek office",
       "topic": "office",
       "timestamp": "2026-08-28T18:57:59.150861"
+    },
+    {
+      "prompt": "Professional woman giving a presentation with confident body language, modern boardroom, bright professional lighting",
+      "topic": "modern",
+      "timestamp": "2026-08-28T20:22:24.484716"
+    },
+    {
+      "prompt": "Modern business building with glass facade, sunset lighting, professional architecture photography",
+      "topic": "business",
+      "timestamp": "2026-08-28T20:24:30.985380"
     }
   ],
   "learned_topics": [
     "business",
-    "office"
+    "office",
+    "modern"
   ],
   "business_type": "General Business",
   "brand_voice": null,
   "image_style_preferences": [],
   "topic_patterns": {
-    "business": 1,
-    "office": 1
+    "business": 2,
+    "office": 1,
+    "modern": 1
   }
 }

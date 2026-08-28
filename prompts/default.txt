@@ -1,7 +1,5 @@
 # DEFAULT Prompts
 # Add your prompts here (one per line)
-Professional woman giving a presentation with confident body language, modern boardroom, bright professional lighting
-Modern business building with glass facade, sunset lighting, professional architecture photography
 Digital marketing concept with social media icons floating around a laptop, modern workspace, bright colors
 Professional networking event with people shaking hands, elegant venue, warm professional atmosphere
 Modern startup office with creative team working, colorful but professional, motivational atmosphere
@@ -13,3 +11,4 @@ Modern technology concept with glowing blue network connections, professional wo
 Professional customer service concept, smiling representative helping client, modern office, warm lighting
 Global business concept with world map and connections, modern office, professional atmosphere
 Modern professional office with employees collaborating in a bright workspace, clean minimalist design, 4K quality
+test

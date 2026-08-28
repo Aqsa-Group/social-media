@@ -1,6 +1,6 @@
 {
-  "total_posts": 6,
-  "total_ai_generated": 3,
+  "total_posts": 8,
+  "total_ai_generated": 5,
   "total_user_uploads": 3,
   "prompts_used": [
     {
@@ -31,6 +31,16 @@
     {
       "prompt": "Futuristic technology concept with holographic displays and data visualization, modern sleek office",
       "timestamp": "2026-08-28T18:57:59.148859",
+      "success": false
+    },
+    {
+      "prompt": "Professional woman giving a presentation with confident body language, modern boardroom, bright professional lighting",
+      "timestamp": "2026-08-28T20:22:24.481051",
+      "success": false
+    },
+    {
+      "prompt": "Modern business building with glass facade, sunset lighting, professional architecture photography",
+      "timestamp": "2026-08-28T20:24:30.982842",
       "success": false
     }
   ],
@@ -102,6 +112,24 @@
       "caption": "\ud83c\udf1f Your success starts with the right environment.\n\n\ud83e\udd16 Futuristic technology concept with holographic displays and data visualization, modern sleek office\n\n#aqsagroup #aqsasystem #aqsapay #sarafi",
       "image_path": "C:\\Users\\AQSA Office\\Desktop\\social-media\\images\\ai_generated\\ai_image_20260828_185741.jpg",
       "timestamp": "2026-08-28T18:57:59.148873"
+    },
+    {
+      "image_source": "generate_ai",
+      "prompt": "Professional woman giving a presentation with confident body language, modern boardroom, bright professional lighting",
+      "success": false,
+      "platforms": [],
+      "caption": "\ud83c\udf1f Your success starts with the right environment.\n\n\ud83e\udd16 Professional woman giving a presentation with confident body language, modern boardroom, bright professional lighting\n\n#aqsagroup #aqsasystem #aqsapay #sarafi",
+      "image_path": "C:\\Users\\AQSA Office\\Desktop\\social-media\\images\\ai_generated\\ai_image_20260828_202220.jpg",
+      "timestamp": "2026-08-28T20:22:24.481074"
+    },
+    {
+      "image_source": "generate_ai",
+      "prompt": "Modern business building with glass facade, sunset lighting, professional architecture photography",
+      "success": false,
+      "platforms": [],
+      "caption": "\ud83d\udcc8 Your partner in business success.\n\n\ud83e\udd16 Modern business building with glass facade, sunset lighting, professional architecture photography\n\n#aqsagroup #aqsasystem #aqsapay #sarafi",
+      "image_path": "C:\\Users\\AQSA Office\\Desktop\\social-media\\images\\ai_generated\\ai_image_20260828_202427.jpg",
+      "timestamp": "2026-08-28T20:24:30.982858"
     }
   ],
   "business_topics": [],
