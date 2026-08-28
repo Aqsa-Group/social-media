@@ -28,7 +28,7 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 IMAGE_URL = os.getenv("IMAGE_URL") or None
 PUBLIC_IMAGE_BASE_URL = os.getenv(
     "PUBLIC_IMAGE_BASE_URL",
-    "https://aqsagroup.af/social-media/app",
+    "https://aqsagroup.af",
 ).rstrip("/")
 WATCH_DIRECTORY = os.getenv("WATCH_DIRECTORY", str(UPLOAD_DIR))
 WEB_HOST = os.getenv("WEB_HOST", "127.0.0.1")

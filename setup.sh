@@ -22,7 +22,7 @@ pip install -r requirements.txt
 
 # Create directories
 echo "Creating directories..."
-mkdir -p images posted ai_generated logs
+mkdir -p images/uploads images/ai_generated images/posted logs data prompts
 
 # Create .env if not exists
 if [ ! -f .env ]; then

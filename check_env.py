@@ -4,6 +4,7 @@ import requests
 import json
 from dotenv import load_dotenv
 from pathlib import Path
+from config import AI_GENERATED_DIR, POSTED_DIR, UPLOAD_DIR
 
 load_dotenv()
 
@@ -160,7 +161,7 @@ def test_instagram():
 def find_test_image():
     """Find an image to test with"""
     # Check ai_generated folder
-    ai_dir = Path("images/ai_generated")
+    ai_dir = AI_GENERATED_DIR
     if ai_dir.exists():
         for ext in ['*.jpg', '*.jpeg', '*.png']:
             images = list(ai_dir.glob(ext))
@@ -168,7 +169,7 @@ def find_test_image():
                 return str(images[0])
     
     # Check uploads folder
-    upload_dir = Path("images/uploads")
+    upload_dir = UPLOAD_DIR
     if upload_dir.exists():
         for ext in ['*.jpg', '*.jpeg', '*.png', '*.gif']:
             images = list(upload_dir.glob(ext))
@@ -176,7 +177,7 @@ def find_test_image():
                 return str(images[0])
     
     # Check posted folder
-    posted_dir = Path("images/posted")
+    posted_dir = POSTED_DIR
     if posted_dir.exists():
         for ext in ['*.jpg', '*.jpeg', '*.png', '*.gif']:
             images = list(posted_dir.glob(ext))
