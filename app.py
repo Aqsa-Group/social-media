@@ -29,6 +29,7 @@ memory = MemoryManager(PROJECT_DIR / 'data' / 'memory.json', PROJECT_DIR / 'data
 decision_engine = SmartDecisionEngine(memory)
 
 @app.route('/')
+@app.route('/social-media/app/')
 def dashboard():
     stats = memory.get_statistics()
     recent_posts = memory.get_recent_posts(10)
@@ -40,33 +41,40 @@ def dashboard():
                          business=business)
 
 @app.route('/prompts')
+@app.route('/social-media/app/prompts')
 def prompts_page():
     prompts = get_all_prompts()
     categories = get_prompt_categories()
     return render_template('prompts.html', prompts=prompts, categories=categories)
 
 @app.route('/upload')
+@app.route('/social-media/app/upload')
 def upload_page():
     return render_template('upload.html')
 
 @app.route('/analytics')
+@app.route('/social-media/app/analytics')
 def analytics_page():
     stats = memory.get_statistics()
     return render_template('analytics.html', stats=stats)
 
 @app.route('/settings')
+@app.route('/social-media/app/settings')
 def settings_page():
     return render_template('settings.html')
 
 @app.route('/api/stats')
+@app.route('/social-media/app/api/stats')
 def api_stats():
     return jsonify(memory.get_statistics())
 
 @app.route('/api/posts')
+@app.route('/social-media/app/api/posts')
 def api_posts():
     return jsonify(memory.get_recent_posts(50))
 
 @app.route('/api/post_now', methods=['POST'])
+@app.route('/social-media/app/api/post_now', methods=['POST'])
 def api_post_now():
     try:
         success = publish_daily()
@@ -76,6 +84,7 @@ def api_post_now():
         return jsonify({'success': False, 'message': str(e)})
 
 @app.route('/api/upload', methods=['POST'])
+@app.route('/social-media/app/api/upload', methods=['POST'])
 def api_upload():
     if 'image' not in request.files:
         return jsonify({'success': False, 'error': 'No image uploaded'}), 400
@@ -99,6 +108,7 @@ def api_upload():
     return jsonify({'success': False, 'error': 'Invalid file'}), 400
 
 @app.route('/api/prompts', methods=['GET', 'POST'])
+@app.route('/social-media/app/api/prompts', methods=['GET', 'POST'])
 def api_prompts():
     if request.method == 'GET':
         return jsonify(get_all_prompts())
@@ -113,6 +123,7 @@ def api_prompts():
     return jsonify({'success': False, 'error': 'No prompt provided'}), 400
 
 @app.route('/api/prompts/<int:index>', methods=['DELETE'])
+@app.route('/social-media/app/api/prompts/<int:index>', methods=['DELETE'])
 def api_delete_prompt(index):
     prompts = get_all_prompts()
     if 0 <= index < len(prompts):
@@ -122,21 +133,21 @@ def api_delete_prompt(index):
     return jsonify({'success': False}), 404
 
 @app.route('/images/uploads/<filename>')
-@app.route('/repositories/social-media/images/uploads/<filename>')
+@app.route('/social-media/app/images/uploads/<filename>')
 def serve_upload(filename):
     return send_from_directory(UPLOAD_DIR, filename)
 
 @app.route('/images/ai_generated/<filename>')
-@app.route('/repositories/social-media/images/ai_generated/<filename>')
+@app.route('/social-media/app/images/ai_generated/<filename>')
 def serve_ai(filename):
     return send_from_directory(AI_GENERATED_DIR, filename)
 
 @app.route('/images/posted/<filename>')
-@app.route('/repositories/social-media/images/posted/<filename>')
+@app.route('/social-media/app/images/posted/<filename>')
 def serve_posted(filename):
     return send_from_directory(POSTED_DIR, filename)
 
-@app.route('/repositories/social-media/images/<path:filename>')
+@app.route('/social-media/app/images/<path:filename>')
 def serve_repository_image(filename):
     """Serve an image through the public repository URL used by social APIs."""
     image_path = (PROJECT_DIR / 'images' / filename).resolve()

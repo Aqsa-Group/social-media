@@ -92,7 +92,7 @@
                 msg.textContent = '⏳ Posting...';
                 msg.style.color = '#666';
                 
-                fetch('/api/post_now', {method: 'POST'})
+                fetch('api/post_now', {method: 'POST'})
                 .then(r => r.json())
                 .then(data => {
                     if (data.success) {

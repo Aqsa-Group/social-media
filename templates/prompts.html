@@ -80,7 +80,7 @@
             const msg = document.getElementById('message');
             msg.className = 'status';
             
-            fetch('/api/prompts', {
+            fetch('api/prompts', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({category: category, prompt: prompt})
@@ -102,7 +102,7 @@
         
         function deletePrompt(index) {
             if (confirm('Delete this prompt?')) {
-                fetch('/api/prompts/' + index, {method: 'DELETE'})
+                fetch('api/prompts/' + index, {method: 'DELETE'})
                 .then(r => r.json())
                 .then(data => {
                     if (data.success) location.reload();

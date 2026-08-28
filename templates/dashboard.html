@@ -97,7 +97,7 @@
             msg.textContent = '⏳ Posting...';
             msg.style.display = 'block';
             
-            fetch('/api/post_now', {method: 'POST'})
+            fetch('api/post_now', {method: 'POST'})
             .then(r => r.json())
             .then(data => {
                 msg.className = 'status ' + (data.success ? 'success' : 'error');

@@ -98,7 +98,7 @@
             
             formData.append('image', file);
             
-            fetch('/api/upload', {method: 'POST', body: formData})
+            fetch('api/upload', {method: 'POST', body: formData})
             .then(r => r.json())
             .then(data => {
                 msg.className = 'status ' + (data.success ? 'success' : 'error');
